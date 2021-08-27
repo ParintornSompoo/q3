@@ -5,9 +5,10 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 public class Main extends JFrame implements MouseListener{
-    int size = 3;
+    int size = 4;
     int size_screen = 200*size;
     int turn_count;
+    String mode = "Play";
     private final String[] player = new String[2];
     private final String[][] board_array = new String[size][size];
     JPanel screen = new JPanel();
@@ -84,17 +85,22 @@ public class Main extends JFrame implements MouseListener{
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
     }
     @Override
     public void mousePressed(MouseEvent e) {
-
     }
     @Override
     public void mouseReleased(MouseEvent e) {
+        if (check_winner()[0]){
+            return;
+        }
         int x = e.getX()/200;
         int y = e.getY()/200;
         add_position(x, y);
+        if (check_winner()[0]){
+            mode = "Win";
+            this.repaint();
+        }
         this.repaint();
     }
     @Override
@@ -105,7 +111,7 @@ public class Main extends JFrame implements MouseListener{
     public void mouseExited(MouseEvent e) {
 
     }
-    void gui_display(){
+    void gui_play(){
         screen.removeAll();
         Graphics2D g2d = (Graphics2D) screen.getGraphics();
         g2d.setStroke(new BasicStroke(2));
@@ -120,17 +126,29 @@ public class Main extends JFrame implements MouseListener{
                 g2d.drawString(board_array[i][j],60+(200*j),150+(200*i));
             }
         }
-        check_winner();
     }
     void gui_win(){
         Graphics2D g2d = (Graphics2D) screen.getGraphics();
         g2d.setColor(Color.BLUE);
-        g2d.setFont(new Font("Serif", Font.PLAIN, 150));
-        g2d.drawString(player[1] + " WIN",size_screen / 5,size_screen / 2);
+        g2d.setFont(new Font("Serif", Font.PLAIN, 120));
+        if (check_winner()[1]){
+            g2d.drawString("DRAW",size_screen / 5,size_screen / 2);
+        }
+        else
+            g2d.drawString(player[1] + " WIN",size_screen / 5,size_screen / 2);
     }
     public void paint(Graphics g){
         super.paint(g);
-        gui_win();
+        switch (mode){
+            case "Play":
+                gui_play();
+                break;
+            case "Win":
+                gui_win();
+                break;
+            default:
+                break;
+        }
     }
     public static void main(String[] args){
         new Main();
