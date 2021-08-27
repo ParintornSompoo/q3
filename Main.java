@@ -56,7 +56,9 @@ public class Main extends JFrame implements MouseListener{
     }
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        int x = e.getX()/200;
+        int y = e.getY()/200;
+        add_position(x, y);
     }
     @Override
     public void mouseEntered(MouseEvent e) {
