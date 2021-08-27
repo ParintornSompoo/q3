@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 public class Main extends JFrame implements MouseListener{
-    int size = 3;
+    int size = 4;
     int size_screen = 200*size;
     int turn_count;
     private final String[] player = new String[2];
@@ -42,8 +42,48 @@ public class Main extends JFrame implements MouseListener{
         this.player[0] = this.player[1];
         this.player[1] = swapplayer;
     }
-    public boolean check_winner() {
-        return false;
+    public boolean[] check_winner() {
+        boolean[] result = {false,false};
+        String[] check_list2 = new String[size]; // แนวตั้ง
+        String[] check_list3 = new String[size]; // แนวแทยงซ้าย
+        String[] check_list4 = new String[size]; // แนวแทยงขวา
+        String [] check_player = new String[size];
+        for (int i = 0;i<size;i++){
+            check_player[i] = this.player[1];
+        }
+        for (int i = 0;i<size;i++) {
+            check_list3[i] = this.board_array[i][i];
+            check_list4[i] = this.board_array[i][size-i-1];
+            for (int j = 0;j<size;j++){
+                check_list2[j] = this.board_array[j][i];
+                if (Arrays.deepEquals(board_array[j],check_player)){
+                    System.out.println("WIN");
+                    result[0] = true;
+                    return result;
+                }
+                if (Arrays.deepEquals(check_list2,check_player)){
+                    System.out.println("WIN");
+                    result[0] = true;
+                    return result;
+                }
+            }
+            if (Arrays.deepEquals(check_list3,check_player)){
+                System.out.println("WIN");
+                result[0] = true;
+                return result;
+            }
+            if (Arrays.deepEquals(check_list4,check_player)){
+                System.out.println("WIN");
+                result[0] = true;
+                return result;
+            }
+        }
+
+        if (this.turn_count == size * size){
+            result[0] = true;
+            result[1] = true;
+        }
+        return result;
     }
 
     @Override
@@ -84,12 +124,13 @@ public class Main extends JFrame implements MouseListener{
                 g2d.drawString(board_array[i][j],60+(200*j),150+(200*i));
             }
         }
+        check_winner();
     }
     public void paint(Graphics g){
         super.paint(g);
         gui_display();
     }
-    public static void main(String[] args) {
+    public static void main(String[] args){
         new Main();
     }
 }
