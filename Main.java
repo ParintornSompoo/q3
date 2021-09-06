@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 public class Main extends JFrame implements MouseListener{
-    int size = 4;
+    int size = 5;
     int size_screen = 200*size;
     int turn_count;
     String mode = "Play";
@@ -91,15 +91,12 @@ public class Main extends JFrame implements MouseListener{
     }
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (check_winner()[0]){
-            return;
-        }
         int x = e.getX()/200;
         int y = e.getY()/200;
-        add_position(x, y);
+        if (!check_winner()[0])
+            add_position(x, y);
         if (check_winner()[0]){
             mode = "Win";
-            this.repaint();
         }
         this.repaint();
     }
@@ -117,10 +114,10 @@ public class Main extends JFrame implements MouseListener{
         g2d.setStroke(new BasicStroke(2));
         for (int i=0;i<size;i++){
             g2d.setColor(Color.black);
-            g2d.drawLine(0, i*200, size_screen, i*200);
+            g2d.drawLine(0, i*200, size_screen, i*200); //แนวนอน
             for (int j=0;j<size;j++){
                 g2d.setColor(Color.black);
-                g2d.drawLine(j*200, 0, j*200, size_screen);
+                g2d.drawLine(j*200, 0, j*200, size_screen); //แนวตั้ง
                 g2d.setColor(Color.green);
                 g2d.setFont(new Font("Serif", Font.PLAIN, 150));
                 g2d.drawString(board_array[i][j],60+(200*j),150+(200*i));
@@ -139,6 +136,7 @@ public class Main extends JFrame implements MouseListener{
     }
     public void paint(Graphics g){
         super.paint(g);
+        // แบบ switch case
         switch (mode){
             case "Play":
                 gui_play();
@@ -149,6 +147,11 @@ public class Main extends JFrame implements MouseListener{
             default:
                 break;
         }
+        // แบบ if else
+        /*if (mode == "Win")
+            gui_win();
+        else if (mode == "Play")
+            gui_play();*/
     }
     public static void main(String[] args){
         new Main();
