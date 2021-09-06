@@ -4,15 +4,15 @@ import java.util.Arrays;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-public class Main extends JFrame implements MouseListener{
-    int size = 5;
+public class Oxgame extends JFrame implements MouseListener{
+    int size = 4;
     int size_screen = 200*size;
     int turn_count;
     String mode = "Play";
     private final String[] player = new String[2];
     private final String[][] board_array = new String[size][size];
     JPanel screen = new JPanel();
-    public Main() {
+    public Oxgame() {
         this.turn_count = 0;
         this.player[0] = "0";
         this.player[1] = "X";
@@ -53,29 +53,28 @@ public class Main extends JFrame implements MouseListener{
             check_player[i] = this.player[1];
         }
         for (int i = 0;i<size;i++) {
+            for (int j = 0;j<size;j++) {
+                check_list2[j] = this.board_array[j][i];
+            }
             check_list3[i] = this.board_array[i][i];
             check_list4[i] = this.board_array[i][size-i-1];
-            for (int j = 0;j<size;j++){
-                check_list2[j] = this.board_array[j][i];
-                if (Arrays.deepEquals(board_array[j],check_player)){
-                    result[0] = true;
-                    return result;
-                }
-                if (Arrays.deepEquals(check_list2,check_player)){
-                    result[0] = true;
-                    return result;
-                }
-            }
-            if (Arrays.deepEquals(check_list3,check_player)){
+            if (Arrays.deepEquals(this.board_array[i],check_player)){
                 result[0] = true;
                 return result;
             }
-            if (Arrays.deepEquals(check_list4,check_player)){
+            if (Arrays.deepEquals(check_list2,check_player)){
                 result[0] = true;
                 return result;
             }
         }
-
+        if (Arrays.deepEquals(check_list3,check_player)){
+            result[0] = true;
+            return result;
+        }
+        if (Arrays.deepEquals(check_list4,check_player)){
+            result[0] = true;
+            return result;
+        }
         if (this.turn_count == size * size){
             result[0] = true;
             result[1] = true;
@@ -94,7 +93,7 @@ public class Main extends JFrame implements MouseListener{
         int x = e.getX()/200;
         int y = e.getY()/200;
         if (!check_winner()[0])
-            add_position(x, y);
+            add_position(x,y);
         if (check_winner()[0]){
             mode = "Win";
         }
@@ -154,6 +153,6 @@ public class Main extends JFrame implements MouseListener{
             gui_play();*/
     }
     public static void main(String[] args){
-        new Main();
+        new Oxgame();
     }
 }
