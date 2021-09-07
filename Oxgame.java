@@ -90,13 +90,15 @@ public class Oxgame extends JFrame implements MouseListener{
     }
     @Override
     public void mouseReleased(MouseEvent e) {
-        int x = e.getX()/200;
-        int y = e.getY()/200;
-        if (!check_winner()[0])
+        if(mode.equals("Play")){
+            int x = e.getX()/200;
+            int y = e.getY()/200;
             add_position(x,y);
-        if (check_winner()[0]){
-            mode = "Win";
+            if(check_winner()[0]){
+                mode = "Win";
+            }
         }
+
         this.repaint();
     }
     @Override
